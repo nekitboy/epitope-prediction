@@ -49,10 +49,11 @@ def blast(seqs):
 
     for seq in seqs:
         result = NCBIWWW.qblast("blastp", "pdb", seq)
-        record = list(NCBIXML.parse(result))
-        if len(record) > 1:
+        result_record = NCBIXML.parse(result)
+        if len(result_record) > 1:
             raise Exception('Length of blast samples bigger than 1')
-        records.append(NCBIXML.parse(result))
+        record = list(result_record[0])
+        records.append(record)
     return records
 
 
@@ -77,3 +78,4 @@ def get_chain(structure, chain_key):
     if len(models) > 1:
         raise Exception('Amount of models in pdb structure more than 1')
     return models[0][chain_key]
+
